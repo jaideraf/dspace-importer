@@ -72,7 +72,7 @@ class Pergamum implements Repository {
 					if ($camposMarc[$j]["paragrafo"] == self::MARC_PARAGRAFO_ABSTRACT) {
 						$value = html_entity_decode($camposMarc[$j]["texto_descricao"]);
 						//remove control characters from abstract
-						$value = preg_replace('/[[:cntrl:]]/', '', $value);
+						$value = preg_replace('/[[:cntrl:]]/', ' ', $value);
 					} else {
 						$value = html_entity_decode($camposMarc[$j]["descricao"]);
 					}
