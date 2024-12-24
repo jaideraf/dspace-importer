@@ -1,9 +1,11 @@
 <?php
 
 require 'Repository.php';
+
 use Zend\Json;
 
-class Pergamum implements Repository {
+class Pergamum implements Repository
+{
 	const MARC_COLLECTION_FIELD = '710-b-1';
 	const MARC_PARAGRAFO_ABSTRACT = "520";
 
@@ -11,32 +13,37 @@ class Pergamum implements Repository {
 	private $defaultCollection;
 
 
-	public function getAllItems() {
-                return $this->getItemsFromWS();
-        }
+	public function getAllItems()
+	{
+		return $this->getItemsFromWS();
+	}
 
-	public function getItemsByYear($year) {
+	public function getItemsByYear($year)
+	{
 		return $this->getItemsFromWS("ano=" . $year);
 	}
 
-	function setDefaultCollection($collection) {
+	function setDefaultCollection($collection)
+	{
 		$this->defaultCollection = $collection;
 	}
 
-	function __construct($wsURL) {
+	function __construct($wsURL)
+	{
 		$this->wsURL = $wsURL;
 	}
 
-	private function getItemsFromWS($args="") {
+	private function getItemsFromWS($args = "")
+	{
 		$url = $this->wsURL;
 		if ($args != "") {
 			$url = $url . "teses.php?" . $args;
 		}
-		echo "Calling ".$url.PHP_EOL;
+		echo "Calling " . $url . PHP_EOL;
 		$html = implode('', file($url)); // Return a String.
 		$phpNative = Zend\Json\Encoder::encodeUnicodeString($html); // Encodes the String $html
 		$teses = Zend\Json\Json::decode($phpNative, Zend\Json\Json::TYPE_ARRAY);
-		$r = Array();
+		$r = array();
 		for ($i = 0; $i <= sizeof($teses); $i++) {
 			if (array_key_exists($i, $teses)) {
 				$t = new ItemImpl();
@@ -71,10 +78,8 @@ class Pergamum implements Repository {
 					//Abstract comes from another database field
 					if ($camposMarc[$j]["paragrafo"] == self::MARC_PARAGRAFO_ABSTRACT) {
 						$value = html_entity_decode($camposMarc[$j]["texto_descricao"]);
-						//remove CR/LF from abstract
-						$value = str_replace(chr(13), '', $value);
-						$value = str_replace(chr(10), '', $value);
-						$value = str_replace("", '', $value);
+						//remove control characters from abstract
+						$value = preg_replace('/[[:cntrl:]]/', ' ', $value);
 					} else {
 						$value = html_entity_decode($camposMarc[$j]["descricao"]);
 					}
@@ -97,14 +102,15 @@ class Pergamum implements Repository {
 	}
 
 	//returns a Thesis with a given id
-	public function getItem($id) {
+	public function getItem($id)
+	{
 		return $this->getItemFromWS("acervo=" . $id);
 	}
 
 	//save a Thesis
-	public function saveItem($t) {
+	public function saveItem($t)
+	{
 		//TODO: implement this
 		throw new Exception("Saving items on Pergamum not available yet");
 	}
 }
-?>
