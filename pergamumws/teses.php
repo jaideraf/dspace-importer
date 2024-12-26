@@ -17,8 +17,8 @@ AND t.cod_tipo_obra = ag.cod_tipo_obra
 AND ag.cod_tipo_obra in(6,9)
 AND (r.ano_publicacao = '" . $ano . "' or '" . $ano . "'='')
 AND (r.cod_acervo = '" . $acervo . "' or '" . $acervo . "'='')
---AND r.ano_publicacao >= '2009' AND r.ano_publicacao <= '2009'
---AND r.cod_acervo=348186
+-- AND r.ano_publicacao >= '2009' AND r.ano_publicacao <= '2009'
+-- AND r.cod_acervo=348186
 ORDER BY r.ano_publicacao DESC
 ", $db);
 $trabalhos = array();
