@@ -1,7 +1,8 @@
 <?php
 
-interface Subject {
+interface Subject
+{
 
-	function notify($event);
+    function notify($event);
 
 }

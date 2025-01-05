@@ -1,7 +1,8 @@
 <?php
 
-interface MetadataConverter{
-	//convert an object
-	public function convert($object);
+interface MetadataConverter
+{
+    //convert an object
+    public function convert($object);
 }
 ?>

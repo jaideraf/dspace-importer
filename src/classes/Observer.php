@@ -1,7 +1,6 @@
 <?php
 
-interface Observer {
-
-	function update($event);
-
+interface Observer
+{
+    function update($event);
 }

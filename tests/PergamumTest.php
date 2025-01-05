@@ -21,11 +21,13 @@ class PergamumTest extends TestCase
         $p = new Pergamum();
         $t = $p->getAllThesis(2014);
         $count=0;
-        $results = array_filter($t, function($tese) {
-            if ($tese['autor'] == 'TONINI, Gustavo Alexssandro.'){
-                $count++;
+        $results = array_filter(
+            $t, function ($tese) {
+                if ($tese['autor'] == 'TONINI, Gustavo Alexssandro.') {
+                    $count++;
+                }
             }
-        });
+        );
         $this->assertEquals(1, $count);
     }
 }
